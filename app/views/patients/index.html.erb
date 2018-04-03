@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Patients</h1>
+
+<!-- TEXT HELPER!!! Pluralize Beginning-->
+<div>
+  <%= pluralize(@patients.size, 'patient') %> found
+</div>
+<!--Pluralize Ending-->
+
+<br>
+
+<%= link_to 'New Patient', new_patient_path, :class => "btn btn-primary" %>
+
+<br><br>
+
+<%= search_form_for @search do |f| %>
+<!--<form>-->
+<!--  <div class="form-group">-->
+<!--    <input class="form-control" type="text" placeholder="">-->
+<!--  </div>-->
+<!--</form>-->
+  <div class="field">
+    <%= f.label :name_cont, "Name Contains"%>
+    <%= f.text_field :name_cont%>
+  </div>
+  <div class="actions">
+    <%= f.submit "Search"%>
+  </div>
+<% end %>
+
+<br><br>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col"><%= sort_link @search, :name, "Name" %></th>
+      <th scope="col">Date of Birth</th>
+      <th scope="col">Address</th>
+      <th scope="col">Phone No.</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @patients.each do |patient| %>
+    
+      <!-- TEXT HELPER!!! Cycle -->
+      <tr class="<%= cycle('odd','even') %>">
+        <td><%= patient.name %></td>
+        <td><%= patient.dob %></td>
+        <td><%= patient.address %></td>
+        <td><%= patient.phone %></td>
+        <td><%= link_to 'Show', patient, :class => "btn btn-default" %></td>
+        <td><%= link_to 'Edit', edit_patient_path(patient), :class => "btn btn-default" %></td>
+        <td><%= link_to 'Destroy', patient, :class => "btn btn-default", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        
+        <!-- Add named scope to limit amount of results shown above -->
+        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
